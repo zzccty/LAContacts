@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">LAContacts</string>
+    <string name="title_call">通话</string>
+    <string name="title_contacts">联系人</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
