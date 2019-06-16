@@ -1,18 +1,24 @@
 package fun.hara.lacontacts;
 
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import fun.hara.lacontacts.dao.ContactsDAO;
 import fun.hara.lacontacts.fragment.CallFragment;
 import fun.hara.lacontacts.fragment.ContactsFragment;
 
@@ -23,10 +29,13 @@ public class MainActivity extends AppCompatActivity {
     private CallFragment callFragment;
     private ContactsFragment contactsFragment;
 
+
     /**
      * 初始化相关fragment
      */
     public void init() {
+
+
         callFragment = new CallFragment();
         contactsFragment = new ContactsFragment();
         // 开启一个事务将fragment动态加载到组件
@@ -80,10 +89,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) this,
+                    new String[]{android.Manifest.permission.READ_CONTACTS},
+                    1);
+        }
+
         setContentView(R.layout.activity_main);
         init();
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
+
     }
 }

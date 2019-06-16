@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fun.hara.lacontacts.ContactEditActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/editContactTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="新增联系人"
+            android:textColor="#fafafa"
+            android:textSize="18dp" />
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="25dp"
+            android:background="@drawable/normal_button"
+            android:onClick="back"
+            app:srcCompat="@drawable/ic_chevron_left_black_24dp" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/backBtn"
+            android:layout_marginEnd="25dp"
+            android:background="@drawable/normal_button"
+            app:srcCompat="@drawable/ic_check_24dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <EditText
+            android:id="@+id/editContactName"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/editContactPhone"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/edittext_background_2"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="姓名"
+            android:inputType="textPersonName"
+            android:textColorHighlight="#444444"
+            android:textCursorDrawable="@null"
+            android:textSize="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <EditText
+            android:id="@+id/editContactPhone"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/editContactName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="29dp"
+            android:background="@drawable/edittext_background_2"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="电话号码"
+            android:inputType="phone"
+            android:textCursorDrawable="@null"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:background="#fafafa"
+            android:elevation="10dp"
+            android:translationZ="10dp">
+            <ImageButton
+                android:id="@+id/callBtn"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/dial_button"
+                android:minHeight="55dp"
+                android:src="@drawable/ic_call_black_24dp"
+                android:stateListAnimator="@null" />
+
+            <ImageButton
+                android:id="@+id/deleteBtn"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/dial_button"
+                android:minHeight="55dp"
+                android:src="@drawable/ic_delete_black_24dp"
+                android:stateListAnimator="@null" />
+
+        </RelativeLayout>
+        <!--  <View
+              android:layout_width="300dp"
+              android:layout_height="0.5dp"
+              android:layout_alignStart="@+id/editContactPhone"
+              android:layout_below="@+id/editContactPhone"
+              android:background="#8e8e8e" />-->
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>
