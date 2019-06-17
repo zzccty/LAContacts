@@ -1,40 +1,40 @@
 package fun.hara.lacontacts.dao;
 
-import android.Manifest;
-import android.app.Activity;
+import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
-import android.content.pm.PackageManager;
+import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
 
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
 import fun.hara.lacontacts.domain.ContactInfo;
 
-import static android.support.v4.app.ActivityCompat.requestPermissions;
 
-/**
- * Created by hanaii on 2019/6/15.
- */
 
 public class ContactsDAO {
 
+    private Context ctx;
+
+    public ContactsDAO(Context ctx) {
+        this.ctx = ctx;
+    }
+
     /**
      * 获取联系人列表
-     * @param ctx
      */
-    public static List<ContactInfo> listAll(Context ctx){
-
+    public List<ContactInfo> listAll(){
+       List<ContactInfo> list = new LinkedList<>();
        Cursor cursor = ctx.getContentResolver().query(
                 Phone.CONTENT_URI,
                 null,
@@ -42,15 +42,15 @@ public class ContactsDAO {
                 null,
                 null
         );
-        List<ContactInfo> list = new LinkedList<>();
        while(cursor.moveToNext()){
                 list.add(new ContactInfo(  //
                         cursor.getInt(cursor.getColumnIndex(Phone._ID)),  //
                         cursor.getString(cursor.getColumnIndex(Phone.DISPLAY_NAME)),  //
                         cursor.getString(cursor.getColumnIndex(Phone.NUMBER)) //
                 ));
-            }
+        }
         cursor.close();
+        // 排序
         Object[] arr = list.toArray();
         Arrays.sort(arr);
         list.clear();
@@ -58,5 +58,44 @@ public class ContactsDAO {
             list.add((ContactInfo) arr[i]);
         }
        return list;
+    }
+
+    /**
+     * 保存联系人信息
+     * @param contactInfo
+     */
+    public void save(ContactInfo contactInfo){
+
+
+        Uri rawContacts = ContactsContract.RawContacts.CONTENT_URI;
+        //1,获取当前最大的联系人id
+        Cursor cursor = ctx.getContentResolver().query(rawContacts, new String[]{"contact_id"}, null, null, null);
+        cursor.moveToLast();
+        //生成最大的联系人id，这将是我们添加进去之后的id了
+        int newId = cursor.getInt(0) + 1;
+        cursor.close();
+
+        //2.添加一个联系人id进raw_contacts表
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("contact_id", newId);
+         ctx.getContentResolver().insert(rawContacts, contentValues);
+
+        Uri dataUri = ContactsContract.Data.CONTENT_URI;
+
+        //3.添加信息
+        contentValues.clear();
+        contentValues.put("raw_contact_id", newId);//联系人id
+        contentValues.put("data1", contactInfo.getName());//联系人名称
+        contentValues.put("mimetype", "vnd.android.cursor.item/name");//联系人名称
+        ctx.getContentResolver().insert(dataUri, contentValues);
+
+        contentValues.clear();
+        contentValues.put("raw_contact_id", newId);//联系人id
+        contentValues.put("data1", contactInfo.getPhone());//数据
+        contentValues.put("mimetype", "vnd.android.cursor.item/phone_v2");//数据类型
+        ctx.getContentResolver().insert(dataUri, contentValues);
+        System.out.println(111);
+
+
     }
 }

@@ -2,6 +2,8 @@ package fun.hara.lacontacts.domain;
 
 import android.support.annotation.NonNull;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.text.Collator;
 import java.util.Comparator;
 
@@ -10,6 +12,7 @@ import java.util.Comparator;
  */
 
 public class ContactInfo  implements Comparable<ContactInfo> {
+    @JSONField(serialize=false)
     private Integer id;
     private String name;
     private String phone;

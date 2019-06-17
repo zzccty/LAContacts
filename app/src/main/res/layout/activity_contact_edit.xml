@@ -37,10 +37,10 @@
             app:srcCompat="@drawable/ic_chevron_left_black_24dp" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/saveContactBtn"
             android:layout_width="40dp"
             android:layout_height="40dp"
-
+            android:onClick="saveContact"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/backBtn"
             android:layout_marginEnd="25dp"
@@ -60,7 +60,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
-
         <EditText
             android:id="@+id/editContactName"
             android:layout_width="300dp"
@@ -77,9 +76,7 @@
             android:textCursorDrawable="@null"
             android:textSize="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-
             app:layout_constraintStart_toStartOf="parent" />
-
 
         <EditText
             android:id="@+id/editContactPhone"
@@ -105,7 +102,9 @@
             android:layout_alignParentStart="true"
             android:background="#fafafa"
             android:elevation="5dp"
-            android:translationZ="5dp">
+            android:translationZ="5dp"
+            android:visibility="gone"
+            android:id="@+id/editContactBottom">
             <ImageButton
                 android:id="@+id/callBtn"
                 android:layout_width="180dp"
@@ -128,12 +127,44 @@
                 android:stateListAnimator="@null" />
 
         </RelativeLayout>
-        <!--  <View
-              android:layout_width="300dp"
-              android:layout_height="0.5dp"
-              android:layout_alignStart="@+id/editContactPhone"
-              android:layout_below="@+id/editContactPhone"
-              android:background="#8e8e8e" />-->
+
+        <RelativeLayout
+            android:layout_width="230dp"
+            android:layout_height="230dp"
+            android:layout_below="@+id/editContactPhone"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="35dp">
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/QRCodeImg"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="46dp"
+                app:srcCompat="@mipmap/ic_launcher" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="11dp"
+                android:text="扫描二维码可导入联系人" />
+
+            <ImageButton
+                android:id="@+id/QRCodeScanBtn"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:visibility="gone"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/big_camera_button"
+                android:layout_marginBottom="46dp"
+                android:onClick=""
+                app:srcCompat="@drawable/ic_photo_camera_black_24dp" />
+        </RelativeLayout>
+
     </RelativeLayout>
 
 
