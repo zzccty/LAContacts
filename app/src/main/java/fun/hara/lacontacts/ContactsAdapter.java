@@ -27,11 +27,8 @@ public class ContactsAdapter extends BaseAdapter {
         this.ctx = ctx;
     }
 
-
-
     @Override
     public int getCount() {
-
         return list.size();
     }
 
@@ -51,11 +48,8 @@ public class ContactsAdapter extends BaseAdapter {
         layout = (LinearLayout) inflater.inflate(R.layout.contact_info, null);
         TextView nameTV = (TextView) layout.findViewById(R.id.contactName);
         TextView phoneTV = (TextView) layout.findViewById(R.id.contactPhone);
-
         nameTV.setText(list.get(i).getName());
         phoneTV.setText(list.get(i).getPhone());
-
-
         return layout;
     }
 }

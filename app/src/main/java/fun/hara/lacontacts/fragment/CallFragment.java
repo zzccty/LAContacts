@@ -24,16 +24,16 @@ public class CallFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_call,container,false);
+        View view = inflater.inflate(R.layout.fragment_call,container,false);
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // 对拨号键盘的显示与隐藏功能进行初始化
-        initDialHideAndShow();
+        initDialHideAndShow();  // 对拨号键盘的显示与隐藏功能进行初始化
     }
+
 
     /**
      * 对拨号键盘的显示与隐藏功能进行初始化

@@ -14,7 +14,6 @@ public class ContactEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_edit);
-
         Intent intent = getIntent();
         String id=intent.getStringExtra("id");
         if(id!=null && !"".equals(id)){

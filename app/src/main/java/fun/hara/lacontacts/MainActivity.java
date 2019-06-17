@@ -1,5 +1,6 @@
 package fun.hara.lacontacts;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -33,9 +34,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 初始化相关fragment
      */
-    public void init() {
-
-
+    public void initFragment() {
         callFragment = new CallFragment();
         contactsFragment = new ContactsFragment();
         // 开启一个事务将fragment动态加载到组件
@@ -49,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         // 展示通话界面
         switchNav(R.id.navigation_call);
     }
+
+
     /**
      *  切换导航对应的fragment
      * @param navId
@@ -70,6 +71,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * 应用权限检查
+     */
+    private void checkPermission(){
+
+        // 通讯录读取权限
+        if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) this,
+                    new String[]{android.Manifest.permission.READ_CONTACTS},
+                    1);
+        }
+        // 通讯录写入权限
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) this,
+                    new String[]{android.Manifest.permission.WRITE_CONTACTS},
+                    1);
+        }
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -86,23 +109,18 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions((Activity) this,
-                    new String[]{android.Manifest.permission.READ_CONTACTS},
-                    1);
-        }
-
+        checkPermission();  // 权限检查
         setContentView(R.layout.activity_main);
-        init();
+        initFragment();     // 初始化fragment
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-
-
     }
+
+
 }
