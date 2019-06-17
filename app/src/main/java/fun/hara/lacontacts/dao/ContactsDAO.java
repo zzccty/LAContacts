@@ -94,8 +94,34 @@ public class ContactsDAO {
         contentValues.put("data1", contactInfo.getPhone());//数据
         contentValues.put("mimetype", "vnd.android.cursor.item/phone_v2");//数据类型
         ctx.getContentResolver().insert(dataUri, contentValues);
-        System.out.println(111);
 
+    }
 
+    /**
+     * 根据指定id删除对应联系人数据
+     * @param id
+     */
+    public void delete(Integer id){
+        ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+        ops.add(ContentProviderOperation.newDelete(ContactsContract.Data.CONTENT_URI)
+                .withSelection(ContactsContract.Data._ID + "=?", new String[]{String.valueOf(id)})
+                .build());
+
+        try {
+            ctx.getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (OperationApplicationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 更新指定联系人数据
+     * @param contactInfo 必须包含id
+     */
+    public void update(ContactInfo contactInfo){
+       delete(contactInfo.getId());
+       save(contactInfo);
     }
 }

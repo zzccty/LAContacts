@@ -38,6 +38,7 @@
 
         <ImageButton
             android:id="@+id/saveContactBtn"
+            android:visibility="gone"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:onClick="saveContact"
@@ -46,6 +47,41 @@
             android:layout_marginEnd="25dp"
             android:background="@drawable/normal_button"
             app:srcCompat="@drawable/ic_check_24dp" />
+
+        <ImageButton
+            android:id="@+id/editContactBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:onClick="editContact"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/backBtn"
+            android:layout_marginEnd="25dp"
+
+
+            android:background="@drawable/normal_button"
+            app:srcCompat="@drawable/ic_edit_black_24dp" />
+        <ImageButton
+            android:id="@+id/updateContactBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:onClick="updateContact"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/backBtn"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/normal_button"
+            app:srcCompat="@drawable/ic_check_24dp" />
+
+        <ImageButton
+            android:id="@+id/cancelEditBtn1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            android:layout_alignTop="@+id/updateContactBtn"
+            android:layout_marginEnd="5dp"
+            android:layout_toStartOf="@+id/updateContactBtn"
+            android:background="@drawable/normal_button"
+            app:srcCompat="@drawable/ic_close_black_24dp" />
 
     </RelativeLayout>
 
@@ -102,8 +138,8 @@
             android:layout_alignParentStart="true"
             android:background="#fafafa"
             android:elevation="5dp"
-            android:translationZ="5dp"
             android:visibility="gone"
+            android:translationZ="5dp"
             android:id="@+id/editContactBottom">
             <ImageButton
                 android:id="@+id/callBtn"
@@ -118,6 +154,7 @@
             <ImageButton
                 android:id="@+id/deleteBtn"
                 android:layout_width="180dp"
+                android:onClick="deleteContact"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
@@ -133,7 +170,8 @@
             android:layout_height="230dp"
             android:layout_below="@+id/editContactPhone"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="35dp">
+            android:layout_marginTop="35dp"
+            android:id="@+id/relativeLayout3">
 
             <ImageView
                 android:visibility="gone"
@@ -161,9 +199,19 @@
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/big_camera_button"
                 android:layout_marginBottom="46dp"
-                android:onClick=""
+                android:onClick="scan"
                 app:srcCompat="@drawable/ic_photo_camera_black_24dp" />
         </RelativeLayout>
+
+        <TextView
+            android:visibility="invisible"
+            android:id="@+id/contactId"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignStart="@+id/relativeLayout3"
+            android:layout_below="@+id/editContactPhone"
+            android:layout_marginStart="44dp"
+            android:text="TextView" />
 
     </RelativeLayout>
 

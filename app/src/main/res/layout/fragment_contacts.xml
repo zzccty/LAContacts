@@ -23,7 +23,6 @@
             android:layout_marginTop="66dp"
             android:layout_marginBottom="60dp"
             android:layout_alignParentTop="true" >
-
             <ListView
                 android:id="@+id/contactsInfo"
                 android:layout_width="match_parent"
@@ -32,7 +31,6 @@
                 android:layout_alignParentTop="true"
                 ></ListView>
         </RelativeLayout>
-
     </RelativeLayout>
 
 
