@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Iterator;
@@ -18,6 +21,7 @@ import java.util.List;
 
 import fun.hara.lacontacts.ContactEditActivity;
 import fun.hara.lacontacts.ContactsAdapter;
+import fun.hara.lacontacts.MainActivity;
 import fun.hara.lacontacts.R;
 import fun.hara.lacontacts.dao.ContactsDAO;
 import fun.hara.lacontacts.domain.ContactInfo;
@@ -25,63 +29,15 @@ import fun.hara.lacontacts.domain.ContactInfo;
 
 public class ContactsFragment extends Fragment {
 
-    private boolean isGetData;  // 是否重新加载联系人列表
+    private boolean isGetData;  // 用于判断是否需要重新加载联系人列表
     private String keyword;     // 关键词:可以是姓名或电话(支持模糊查询)
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_contacts,container,false);
-        if(this.keyword != null){
-            contactListViewInit(view, keyword);
-        }else{
-            contactListViewInit(view); // 联系人listview初始化
-        }
+        View view = inflater.inflate(R.layout.fragment_contacts,container,false);
+        initContactList(view);
         return view;
-    }
-
-    /**
-     * 初始化联系人列表
-     */
-    private void initContactList(View view){
-        if(this.keyword != null){
-            contactListViewInit(getView(), keyword);
-        }else{
-            contactListViewInit(getView()); // 联系人listview初始化
-        }
-    }
-
-    private void contactListViewInit(View view, String keyword) {
-        // 获取联系人列表，填充到listview中
-        List<ContactInfo> list = new ContactsDAO(getActivity()).listAll();
-        Iterator<ContactInfo> it = list.iterator();
-        while(it.hasNext()){
-            ContactInfo contactInfo =  it.next();
-            if(!(contactInfo.getName().contains(keyword) || contactInfo.getPhone().contains(keyword))){
-                it.remove();
-            }
-        }
-
-        if(list.size() == 0){
-            Toast.makeText(getActivity(),"不存在对应的记录！" ,Toast.LENGTH_LONG ).show();
-            return;
-        }
-        ListView contactsInfo = (ListView)view.findViewById(R.id.contactsInfo);
-        final ContactsAdapter adapter = new ContactsAdapter(list, getActivity());
-        contactsInfo.setAdapter(adapter);
-        // 设置点击事件
-        contactsInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                ContactInfo contact = (ContactInfo) adapter.getItem(position);
-                Intent intent = new Intent(getActivity(), ContactEditActivity.class);
-                intent.putExtra("id", contact.getId().toString());
-                intent.putExtra("name", contact.getName());
-                intent.putExtra("phone", contact.getPhone());
-                startActivityForResult(intent, 0);
-            }
-        });
-
     }
 
     @Override
@@ -89,21 +45,12 @@ public class ContactsFragment extends Fragment {
         //   进入当前Fragment
         if (enter && !isGetData) {
             isGetData = true;
-            if(this.keyword != null){
-                contactListViewInit(getView(), keyword);
-            }else{
-                contactListViewInit(getView()); // 联系人listview初始化
-            }
+            initContactList();
         } else {
             isGetData = false;
         }
         return super.onCreateAnimation(transit, enter, nextAnim);
     }
-
-   /* private void contactListViewInit() {
-        List<ContactInfo> list = new ContactsDAO(getActivity()).listAll();
-        contactListViewInit(list);
-    }*/
 
     @Override
     public void onPause() {
@@ -111,33 +58,11 @@ public class ContactsFragment extends Fragment {
         isGetData = false;
     }
 
-    /**
-     * 联系人listview初始化
-     */
-    private void contactListViewInit(View view){
-        // 获取联系人列表，填充到listview中
-        List<ContactInfo> list = new ContactsDAO(getActivity()).listAll();
-        ListView contactsInfo = (ListView)view.findViewById(R.id.contactsInfo);
-        final ContactsAdapter adapter = new ContactsAdapter(list, getActivity());
-        contactsInfo.setAdapter(adapter);
-        // 设置点击事件
-        contactsInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                ContactInfo contact = (ContactInfo) adapter.getItem(position);
-                Intent intent = new Intent(getActivity(), ContactEditActivity.class);
-                intent.putExtra("id", contact.getId().toString());
-                intent.putExtra("name", contact.getName());
-                intent.putExtra("phone", contact.getPhone());
-                startActivityForResult(intent, 0);
-            }
-        });
 
-    }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // 新增联系人按钮跳转
+        // 新增联系人按钮
         FloatingActionButton addContactBtn = (FloatingActionButton) getActivity().findViewById(R.id.addContactBtn);
         addContactBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,21 +71,94 @@ public class ContactsFragment extends Fragment {
                 startActivityForResult(intent, 0);
             }
         });
+        // 重置联系人搜索框
+        final ImageButton resetContactListBtn = (ImageButton) getActivity().findViewById(R.id.resetContactListBtn);
+        resetContactListBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setKeyword(null);
+                TextView keywordTV = (TextView) getActivity().findViewById(R.id.keyword);
+                keywordTV.setText("");
+                resetContactListBtn.setVisibility(View.GONE);
+                initContactList();
+            }
+        });
+        // 联系人搜索处理
+        ImageButton searchContactBtn = (ImageButton) getActivity().findViewById(R.id.searchContactBtn);
+        searchContactBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity mainActivity = (MainActivity)getActivity();
+                TextView keywordTV = (TextView) getActivity().findViewById(R.id.keyword);
+                String keyword = keywordTV.getText().toString();
+                if(TextUtils.isEmpty(keyword)){
+                    Toast.makeText(getActivity(),"请输入联系人姓名或电话号码！" ,Toast.LENGTH_LONG ).show();
+                    return;
+                }
+                setKeyword(keyword);
+                // 显示重置按钮
+                ImageButton resetContactListBtn = (ImageButton) getActivity().findViewById(R.id.resetContactListBtn);
+                resetContactListBtn.setVisibility(View.VISIBLE);
+                initContactList();
+                mainActivity.switchNav(R.id.navigation_contacts);
+            }
+        });
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // 刷新
-        if(this.keyword != null){
-            contactListViewInit(getView(), keyword);
-        }else{
-            contactListViewInit(getView()); // 联系人listview初始化
-        }
-        contactListViewInit(getView());     // 联系人listview初始化
+        initContactList();
         if(requestCode==0 && resultCode == 1){
             Toast.makeText(getActivity() ,"新增成功",Toast.LENGTH_LONG ).show();
+        }else if(requestCode==0 && resultCode==2){
+            Toast.makeText(getActivity() ,"更新成功",Toast.LENGTH_LONG ).show();
         }
     }
+
+    /**
+     * 初始化联系人列表
+     * @param view
+     */
+    private void initContactList(View view){
+        // 获取所有联系人列表
+        List<ContactInfo> list = new ContactsDAO(getActivity()).listAll();
+
+        // 当传入的keyword不为null时，进行模糊匹配，筛选调不符合条件的数据
+        if(!TextUtils.isEmpty(keyword)){
+            Iterator<ContactInfo> it = list.iterator();
+            while(it.hasNext()){
+                ContactInfo contactInfo =  it.next();
+                if(!(contactInfo.getName().contains(keyword) || contactInfo.getPhone().contains(keyword))){
+                    it.remove();
+                }
+            }
+        }
+        // 将联系人数据填充到listview中
+        ListView contactsInfo = (ListView)view.findViewById(R.id.contactsInfo);
+        final ContactsAdapter adapter = new ContactsAdapter(list, getActivity());
+        contactsInfo.setAdapter(adapter);
+        // 为每行设置点击响应事件
+        contactsInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                ContactInfo contact = (ContactInfo) adapter.getItem(position);
+                Intent intent = new Intent(getActivity(), ContactEditActivity.class);
+                intent.putExtra("id", contact.getId().toString());
+                intent.putExtra("name", contact.getName());
+                intent.putExtra("phone", contact.getPhone());
+                startActivityForResult(intent, 0);
+            }
+        });
+    }
+
+    /**
+     *  初始化联系人列表，onCreateView()调用无效
+     */
+    private void initContactList(){
+        initContactList(getView());
+    }
+
     /**
      * 暴露给Activity传递参数
      * @param keyword

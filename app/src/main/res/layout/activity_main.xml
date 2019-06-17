@@ -23,7 +23,7 @@
             android:layout_marginStart="18dp"
             android:background="@drawable/custom_edittext_background"
             android:ems="10"
-            android:hint="搜索联系人"
+            android:hint="搜索联系人（姓名或手机）"
             android:inputType="textPersonName"
             android:textColor="#444444"
             android:paddingLeft="15dp"
@@ -50,8 +50,18 @@
             android:background="@android:color/transparent"
             android:layout_alignEnd="@+id/keyword"
             android:layout_centerVertical="true"
-            android:onClick="searchContact"
             app:srcCompat="@drawable/ic_search_black_24dp" />
+
+        <ImageButton
+            android:id="@+id/resetContactListBtn"
+            android:visibility="gone"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="18dp"
+            android:layout_marginRight="10dp"
+            android:layout_toStartOf="@+id/searchContactBtn"
+            app:srcCompat="@drawable/ic_close_24dp" />
     </RelativeLayout>
 
     <FrameLayout
@@ -61,6 +71,7 @@
         android:layout_weight="1"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintStart_toStartOf="@+id/navigation">
+
 
 
     </FrameLayout>

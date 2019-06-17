@@ -66,34 +66,29 @@ public class ContactsDAO {
      */
     public void save(ContactInfo contactInfo){
 
+        ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+        ops.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)  // 此处传入null添加一个raw_contact空数据
+                .build());
+        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)  // RAW_CONTACT_ID是第一个事务添加得到的，因此这里传入0，applyBatch返回的ContentProviderResult[]数组中第一项
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, contactInfo.getName())
+                .build());
+        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, contactInfo.getPhone())
+                .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_WORK)
+                .build());
 
-        Uri rawContacts = ContactsContract.RawContacts.CONTENT_URI;
-        //1,获取当前最大的联系人id
-        Cursor cursor = ctx.getContentResolver().query(rawContacts, new String[]{"contact_id"}, null, null, null);
-        cursor.moveToLast();
-        //生成最大的联系人id，这将是我们添加进去之后的id了
-        int newId = cursor.getInt(0) + 1;
-        cursor.close();
-
-        //2.添加一个联系人id进raw_contacts表
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("contact_id", newId);
-         ctx.getContentResolver().insert(rawContacts, contentValues);
-
-        Uri dataUri = ContactsContract.Data.CONTENT_URI;
-
-        //3.添加信息
-        contentValues.clear();
-        contentValues.put("raw_contact_id", newId);//联系人id
-        contentValues.put("data1", contactInfo.getName());//联系人名称
-        contentValues.put("mimetype", "vnd.android.cursor.item/name");//联系人名称
-        ctx.getContentResolver().insert(dataUri, contentValues);
-
-        contentValues.clear();
-        contentValues.put("raw_contact_id", newId);//联系人id
-        contentValues.put("data1", contactInfo.getPhone());//数据
-        contentValues.put("mimetype", "vnd.android.cursor.item/phone_v2");//数据类型
-        ctx.getContentResolver().insert(dataUri, contentValues);
+        try {
+            ctx.getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (OperationApplicationException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -106,7 +101,6 @@ public class ContactsDAO {
         ops.add(ContentProviderOperation.newDelete(ContactsContract.Data.CONTENT_URI)
                 .withSelection(ContactsContract.Data._ID + "=?", new String[]{String.valueOf(id)})
                 .build());
-
         try {
             ctx.getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
         } catch (RemoteException e) {

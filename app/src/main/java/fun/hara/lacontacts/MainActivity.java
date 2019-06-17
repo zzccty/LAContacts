@@ -2,25 +2,19 @@ package fun.hara.lacontacts;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,11 +23,8 @@ import com.alibaba.fastjson.JSON;
 import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.common.Constant;
 
-import org.w3c.dom.Text;
 
-import java.util.List;
 
-import fun.hara.lacontacts.dao.ContactsDAO;
 import fun.hara.lacontacts.domain.ContactInfo;
 import fun.hara.lacontacts.fragment.CallFragment;
 import fun.hara.lacontacts.fragment.ContactsFragment;
@@ -70,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param navId
      */
-    private void switchNav(int navId) {
+    public void switchNav(int navId) {
         FragmentTransaction beginTransaction = getSupportFragmentManager().beginTransaction();
         switch (navId) {
             case R.id.navigation_call:
@@ -106,41 +97,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    public void searchContact(View view){
-        TextView keywordTV = (TextView) findViewById(R.id.keyword);
-        String keyword = keywordTV.getText().toString();
-        if(TextUtils.isEmpty(keyword)){
-            Toast.makeText(this,"请输入联系人姓名或电话号码！" ,Toast.LENGTH_LONG ).show();
-            return;
-        }
-        contactsFragment.setKeyword(keyword);
-        switchNav(R.id.navigation_contacts);
-        /*Bundle bundle = new Bundle();
-        bundle.putString("keyword", keyword);
-        contactsFragment.setArguments(bundle);
-        switchNav(R.id.navigation_contacts);*/
 
-       /* List<ContactInfo> list = new ContactsDAO(this).listAll();
-        ContactInfo result = null;
-        for (ContactInfo contactInfo : list) {
-            if(contactInfo.getName().equals(keyword) || contactInfo.getPhone().equals(keyword)){
-                result = contactInfo;
-                break;
-            }
-        }
 
-        if(result == null){
-            Toast.makeText(this,"不存在对应的记录！" ,Toast.LENGTH_LONG ).show();
-            return;
-        }
-
-        Intent intent = new Intent(this, ContactEditActivity.class);
-        intent.putExtra("id", result.getId().toString());
-        intent.putExtra("name", result.getName());
-        intent.putExtra("phone", result.getPhone());
-        startActivityForResult(intent, 0);*/
-
-    }
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -157,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 int itemId = item.getItemId();
                 switch (itemId){
+                    // 设置每个item的响应事件
                     case R.id.action_scan:
-
                         Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
                         startActivityForResult(intent, 0);
                         break;
@@ -204,11 +161,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         // 扫描二维码/条码回传
         if (requestCode == 0 && resultCode == RESULT_OK) {
             if (data != null) {
-
                 String content = data.getStringExtra(Constant.CODED_CONTENT);
                 String name = null;
                 String phone = null;
