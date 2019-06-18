@@ -1,0 +1,246 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fun.hara.lacontacts.fragment.CallFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <!-- 调出拨号键盘的按钮 -->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/showDialBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="75dp"
+            android:layout_marginEnd="32dp"
+            android:clickable="true"
+            android:src="@drawable/ic_dialpad_black_24dp" />
+
+            <!-- 拨号键盘 -->
+            <RelativeLayout
+                android:id="@+id/dial"
+                android:layout_width="match_parent"
+                android:layout_height="430dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:elevation="10dp"
+                android:translationZ="10dp"
+                android:background="#fafafa">
+                <!-- 拨号键盘电话号码显示区域-->
+                <TextView
+                    android:id="@+id/editText3"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="15dp"
+                    android:text="请输入电话号码"
+                    android:gravity="center"
+                    android:textSize="18dp" />
+
+                <!-- 拨号键盘按键区域 -->
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/editText3"
+                    android:layout_marginTop="15dp"
+                    android:stretchColumns="*">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <Button
+                            android:id="@+id/btn1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:stateListAnimator="@null"
+                            android:background="@drawable/dial_button"
+                            android:minHeight="55dp"
+                            android:text="1" />
+
+                        <Button
+                            android:id="@+id/btn2"
+                            android:stateListAnimator="@null"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/dial_button"
+                            android:minHeight="55dp"
+                            android:text="2" />
+
+                        <Button
+                            android:id="@+id/btn3"
+                            android:stateListAnimator="@null"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/dial_button"
+                            android:minHeight="55dp"
+                            android:text="3" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <Button
+                            android:id="@+id/btn4"
+                            android:stateListAnimator="@null"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/dial_button"
+                            android:minHeight="55dp"
+                            android:text="4" />
+
+                        <Button
+                            android:id="@+id/btn5"
+                            android:stateListAnimator="@null"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/dial_button"
+                            android:minHeight="55dp"
+                            android:text="5" />
+
+                        <Button
+                            android:id="@+id/btn6"
+                            android:stateListAnimator="@null"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/dial_button"
+                            android:minHeight="55dp"
+                            android:text="6" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <Button
+                            android:id="@+id/btn7"
+                            android:stateListAnimator="@null"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/dial_button"
+                            android:minHeight="55dp"
+                            android:text="7" />
+
+                        <Button
+                            android:id="@+id/btn8"
+                            android:stateListAnimator="@null"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/dial_button"
+                            android:minHeight="55dp"
+                            android:text="8" />
+
+                        <Button
+                            android:id="@+id/btn9"
+                            android:stateListAnimator="@null"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/dial_button"
+                            android:minHeight="55dp"
+                            android:text="9" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <Button
+                            android:id="@+id/star"
+                            android:stateListAnimator="@null"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/dial_button"
+                            android:minHeight="55dp"
+                            android:text="*" />
+
+                        <Button
+                            android:id="@+id/btn0"
+                            android:stateListAnimator="@null"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/dial_button"
+                            android:minHeight="55dp"
+                            android:text="0" />
+
+                        <Button
+                            android:id="@+id/btnSharp"
+                            android:stateListAnimator="@null"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/dial_button"
+                            android:minHeight="55dp"
+                            android:text="#" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageButton
+                            android:id="@+id/hideDialBtn"
+                            android:stateListAnimator="@null"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/dial_button"
+                            android:minHeight="55dp"
+
+                            android:src="@drawable/ic_expand_more_black_24dp" />
+
+                        <ImageButton
+                            android:id="@+id/callDialBtn"
+                            android:layout_width="wrap_content"
+                            android:stateListAnimator="@null"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/dial_button"
+                            android:minHeight="55dp"
+                            android:src="@drawable/ic_call_black_24dp" />
+
+                        <ImageButton
+                            android:id="@+id/delDialBtn"
+                            android:layout_width="wrap_content"
+                            android:stateListAnimator="@null"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/dial_button"
+                            android:minHeight="55dp"
+                            android:src="@drawable/ic_keyboard_backspace_black_24dp" />
+                    </TableRow>
+                </TableLayout>
+
+
+            </RelativeLayout>
+
+    </RelativeLayout>
+</FrameLayout>
