@@ -5,10 +5,28 @@
     android:layout_height="match_parent"
     tools:context="fun.hara.lacontacts.fragment.CallFragment">
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="66dp"
+        android:layout_marginBottom="60dp"
+        android:layout_alignParentTop="true" >
+        <!-- 通话记录列表 -->
+        <ListView
+            android:id="@+id/callRecordList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" ></ListView>
+    </RelativeLayout>
+    
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
+
+
 
         <!-- 调出拨号键盘的按钮 -->
         <android.support.design.widget.FloatingActionButton
@@ -25,6 +43,7 @@
             <!-- 拨号键盘 -->
             <RelativeLayout
                 android:id="@+id/dial"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="430dp"
                 android:layout_alignParentBottom="true"

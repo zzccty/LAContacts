@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <TextView
+            android:id="@+id/recordItemName"
+            android:layout_width="280dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="8dp"
+            android:text="姓名"
+            android:textSize="16dp" />
+        <TextView
+            android:id="@+id/recordItemStatus"
+            android:layout_width="60dp"
+            android:layout_height="25dp"
+            android:layout_alignStart="@+id/recordItemName"
+            android:layout_below="@+id/recordItemName"
+            android:text="呼入/呼出"
+            android:textSize="13dp" />
+        <TextView
+            android:id="@+id/recordItemTime"
+            android:layout_width="280dp"
+            android:layout_height="25dp"
+            android:layout_below="@+id/recordItemName"
+            android:layout_marginStart="12dp"
+            android:layout_toEndOf="@+id/recordItemStatus"
+            android:text="呼出/呼入时间(年-月-日 时 : 分)"
+            android:textSize="13dp" />
+        </RelativeLayout>
+</LinearLayout>
