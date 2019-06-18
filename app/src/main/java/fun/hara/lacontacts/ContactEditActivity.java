@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.Image;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -94,6 +95,21 @@ public class ContactEditActivity extends AppCompatActivity {
             ImageButton QRCodeScanBtn = (ImageButton) findViewById(R.id.QRCodeScanBtn);
             QRCodeScanBtn.setVisibility(View.VISIBLE);
         }
+        //拨号功能，不懂你怎么不调用按键点击就能触发的
+        ImageButton callBtn = (ImageButton)findViewById(R.id.callBtn);
+        final EditText telePhone = (EditText) findViewById(R.id.editContactPhone);
+        callBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                //设置拨打电话的动作
+                intent.setAction(Intent.ACTION_CALL);
+                //设置拨打电话的号码
+                intent.setData(Uri.parse("tel:" + telePhone.getText()));
+                //开启打电话的意图
+                startActivity(intent);
+            }
+        });
     }
 
     /**
