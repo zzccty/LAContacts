@@ -1,39 +1,27 @@
 package fun.hara.lacontacts;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.provider.CallLog;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Locale;
 
-import fun.hara.lacontacts.dao.ContactsDAO;
-import fun.hara.lacontacts.domain.ContactInfo;
-import fun.hara.lacontacts.fragment.CallFragment;
-import fun.hara.lacontacts.getcallrecord.GetCallRecord;
-
-import static android.provider.CallLog.Calls.INCOMING_TYPE;
+import fun.hara.lacontacts.dao.CallRecordDAO;
 
 /**
  * TODO:通讯记录编辑界面
  */
 public class CallRecordEditActivity extends AppCompatActivity {
-    private GetCallRecord getCallList;
+
+
+    private CallRecordDAO callRecordDAO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +31,11 @@ public class CallRecordEditActivity extends AppCompatActivity {
 
     private void init(){
         Intent intent = getIntent();
+
         // 回显信息
+        String id = intent.getStringExtra("id");
+        TextView mRecordId  = (TextView) findViewById(R.id.recordId);
+        mRecordId.setText(id);
         String name = intent.getStringExtra("name");
         final String phone = intent.getStringExtra("phone");
         String time= intent.getStringExtra("date");
@@ -69,7 +61,6 @@ public class CallRecordEditActivity extends AppCompatActivity {
         mRecordStatus.setText(status);
         mRecordTime.setText(time);
         ImageButton mRecordBackBtn = (ImageButton) findViewById(R.id.recordBackBtn);
-        ImageButton mRecordDeleteBtn = (ImageButton) findViewById(R.id.recordDeleteBtn);
         ImageButton mRecordCallBtn = (ImageButton) findViewById(R.id.recordCallBtn);
         ImageButton mRecordMessageBtn = (ImageButton) findViewById(R.id.recordMessageBtn);
         mRecordBackBtn.setOnClickListener(new View.OnClickListener() {
@@ -79,12 +70,7 @@ public class CallRecordEditActivity extends AppCompatActivity {
                 finish();
             }
         });
-        mRecordDeleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {//删除按钮
 
-            }
-        });
         mRecordCallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//拨号按钮
@@ -103,6 +89,30 @@ public class CallRecordEditActivity extends AppCompatActivity {
                 doSendSMSTo(phone,"");
             }
         });
+    }
+    /**
+     * 删除联系人
+     * @param view
+     */
+    public void delete(View view){
+        callRecordDAO = new CallRecordDAO(this);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("提示")
+                .setMessage("确定删除该通话记录吗？")
+                .setPositiveButton("确定",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        TextView idTV = (TextView)findViewById(R.id.recordId);
+                        callRecordDAO.delete(idTV.getText().toString());
+                        setResult(0);
+                        finish();
+                    }
+                })
+                .setNegativeButton("取消",null)
+                .create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.GRAY);
     }
     public void doSendSMSTo(String phoneNumber,String message){
         if(PhoneNumberUtils.isGlobalPhoneNumber(phoneNumber)){

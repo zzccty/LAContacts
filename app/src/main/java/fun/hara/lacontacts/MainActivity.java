@@ -94,10 +94,19 @@ public class MainActivity extends AppCompatActivity {
                 ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
                         != PackageManager.PERMISSION_GRANTED||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG)
+                        != PackageManager.PERMISSION_GRANTED||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALL_LOG)
                         != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions((Activity) this,
-                    new String[]{android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.WRITE_CONTACTS,android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CALL_PHONE,android.Manifest.permission.READ_CALL_LOG},
+                    new String[]{android.Manifest.permission.READ_CONTACTS,
+                            android.Manifest.permission.WRITE_CONTACTS,
+                            android.Manifest.permission.CAMERA,
+                            android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.CALL_PHONE,
+                            android.Manifest.permission.READ_CALL_LOG,
+                            Manifest.permission.WRITE_CALL_LOG
+                    },
                     1);
         }
 

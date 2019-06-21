@@ -1,13 +1,12 @@
 package fun.hara.lacontacts.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,26 +20,21 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import fun.hara.lacontacts.CallRecordEditActivity;
-import fun.hara.lacontacts.ContactsAdapter;
-import fun.hara.lacontacts.MainActivity;
 import fun.hara.lacontacts.R;
-import fun.hara.lacontacts.callrecord.CallRecord;
-import fun.hara.lacontacts.dao.ContactsDAO;
-import fun.hara.lacontacts.domain.ContactInfo;
-import fun.hara.lacontacts.getcallrecord.GetCallRecord;
-import fun.hara.lacontacts.util.CallRecordAdapter;
+import fun.hara.lacontacts.adapter.CallRecordAdapter;
+import fun.hara.lacontacts.dao.CallRecordDAO;
+import fun.hara.lacontacts.domain.CallRecord;
 
 
 public class CallFragment extends Fragment {
     @Nullable
+    private boolean isGetData;  // 用于判断是否需要重新加载联系人记录列表
     private String str = "";//用于存取号码
     final static String TAG="CallFramgment";//用于测试
     @Override
@@ -57,6 +51,31 @@ public class CallFragment extends Fragment {
         setCallClick();//开始拨号
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        initCallRecord();
+    }
+
+    /**
+     *
+     * 刷新联系记录信息
+     * @param transit
+     * @param enter
+     * @param nextAnim
+     * @return
+     */
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        //   进入当前Fragment
+        if (enter && !isGetData) {
+            isGetData = true;
+            initCallRecord();
+        } else {
+            isGetData = false;
+        }
+        return super.onCreateAnimation(transit, enter, nextAnim);
+    }
+
+
     /**
      * 添加通讯显示和触发事件
      *
@@ -65,21 +84,20 @@ public class CallFragment extends Fragment {
     public void initCallRecord(View view) {
         // 获取所有联系人列表
         //TODO 改成获取通讯记录
-        List<CallRecord> list = new GetCallRecord().getCallInfos(getActivity());//getActivity()
+        List<CallRecord> list = new CallRecordDAO(getActivity()).listAll();
         // 将联系人数据填充到listview中
         ListView callRecordInfo = (ListView) view.findViewById(R.id.callRecordList);//获取消息记录list用于设置触发事件
         final CallRecordAdapter adapter = new CallRecordAdapter(list, getActivity());//getActivity()
         callRecordInfo.setAdapter(adapter);//为消息记录list添加adapter
         // 为每行设置点击响应事件
-
         callRecordInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
                 CallRecord mRecord = (CallRecord) adapter.getItem(position);//获取每一位联系人
                 Intent intent = new Intent(getActivity(), CallRecordEditActivity.class);
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());//转换日期格式
-                String dateString = format.format(mRecord.getDate());//要先转时间再传
+                SimpleDateFormat fo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//转换日期格式
+                String dateString = fo.format(mRecord.getDate());//要先转时间再传
+                intent.putExtra("id", mRecord.getId().toString());
                 intent.putExtra("phone", mRecord.getPhone());//将数据传入CallRecordEditActivity
                 intent.putExtra("name", mRecord.getName());
                 intent.putExtra("date", dateString);
@@ -117,7 +135,13 @@ public class CallFragment extends Fragment {
             }
         });
     }
-        /**
+
+    public void onPause() {
+        super.onPause();
+        isGetData = false;
+    }
+
+    /**
          *  初始化联系人列表，onCreateView()调用无效
          */
         public void initCallRecord () {
@@ -137,7 +161,6 @@ public class CallFragment extends Fragment {
                 public void onClick(View view) {
                     // 隐藏按钮
                     showDialBtn.setVisibility(View.INVISIBLE);
-
                     // 弹出键盘
                     Animation animbottomIn = AnimationUtils.loadAnimation(getActivity(), R.anim.bottom_in);
                     animbottomIn.setDuration(240);
@@ -297,7 +320,6 @@ public class CallFragment extends Fragment {
                     initCallRecord();
                     str = "";
                     telephone.setText("请输入手机号码");
-
                 }
             });
         }

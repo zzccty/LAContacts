@@ -38,12 +38,9 @@ public class ContactEditActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_SCAN = 0x0000;
     private ContactsDAO contactsDAO;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_contact_edit);
         init();
     }

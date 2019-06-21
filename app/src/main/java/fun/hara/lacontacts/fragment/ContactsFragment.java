@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import fun.hara.lacontacts.ContactEditActivity;
-import fun.hara.lacontacts.ContactsAdapter;
+import fun.hara.lacontacts.adapter.ContactsAdapter;
 import fun.hara.lacontacts.MainActivity;
 import fun.hara.lacontacts.R;
 import fun.hara.lacontacts.dao.ContactsDAO;

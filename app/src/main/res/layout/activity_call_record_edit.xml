@@ -119,10 +119,11 @@
                 android:id="@+id/recordDeleteBtn"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
                 android:background="@drawable/dial_button"
                 android:minHeight="55dp"
+                android:onClick="delete"
                 android:src="@drawable/ic_delete_black_24dp"
                 android:stateListAnimator="@null" />
             <ImageButton
@@ -136,6 +137,16 @@
                 android:src="@drawable/ic_message_black_24dp"
                 android:stateListAnimator="@null" />
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/recordId"
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/recordTime"
+            android:layout_below="@+id/recordTime"
+            android:layout_marginTop="41dp"
+            android:text="TextView" />
 
 
     </RelativeLayout>

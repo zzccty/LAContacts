@@ -1,4 +1,4 @@
-package fun.hara.lacontacts.util;
+package fun.hara.lacontacts.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,17 +12,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import fun.hara.lacontacts.R;
-import fun.hara.lacontacts.callrecord.CallRecord;
+import fun.hara.lacontacts.domain.CallRecord;
 
 /**
- *ListView需要和Adapter结合使用
+ * Created by hanaii on 2019/6/21.
  */
+
 public class CallRecordAdapter extends BaseAdapter {
-    private List<CallRecord> list;
+    private List<CallRecord> list = new ArrayList<>();
     private Context ctx;
     private LinearLayout layout;//TODO：视图格式
     public CallRecordAdapter(List<CallRecord> list, Context ctx) {
@@ -31,6 +33,7 @@ public class CallRecordAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
+
         return list.size();
     }
 
@@ -58,11 +61,7 @@ public class CallRecordAdapter extends BaseAdapter {
         }else{
             nameRecord.setText(name);
         }
-
-
-        // 秒可以不显示
-        // SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss" , Locale.getDefault());
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm" , Locale.getDefault());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" , Locale.getDefault());
         String dateString = format.format(list.get(i).getDate());
         timeRecord.setText(dateString);
 //        // 类型

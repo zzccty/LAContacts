@@ -1,4 +1,4 @@
-package fun.hara.lacontacts;
+package fun.hara.lacontacts.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
+import fun.hara.lacontacts.R;
 import fun.hara.lacontacts.domain.ContactInfo;
 
 /**
