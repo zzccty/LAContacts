@@ -25,7 +25,7 @@ public class ContactsAdapter extends BaseAdapter {
     public ContactsAdapter(List<ContactInfo> list, Context ctx) {
         this.list = list;
         this.ctx = ctx;
-    }
+}
 
     @Override
     public int getCount() {
