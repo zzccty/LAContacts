@@ -61,7 +61,7 @@ public class CallRecordAdapter extends BaseAdapter {
         }else{
             nameRecord.setText(name);
         }
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" , Locale.getDefault());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm" , Locale.getDefault());
         String dateString = format.format(list.get(i).getDate());
         timeRecord.setText(dateString);
 //        // 类型

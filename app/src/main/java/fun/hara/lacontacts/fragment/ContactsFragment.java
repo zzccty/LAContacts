@@ -58,7 +58,6 @@ public class ContactsFragment extends Fragment {
         isGetData = false;
     }
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -104,7 +103,6 @@ public class ContactsFragment extends Fragment {
             }
         });
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

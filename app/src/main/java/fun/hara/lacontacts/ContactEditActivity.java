@@ -30,6 +30,8 @@ import com.yzq.zxinglibrary.common.Constant;
 
 import fun.hara.lacontacts.dao.ContactsDAO;
 import fun.hara.lacontacts.domain.ContactInfo;
+import fun.hara.lacontacts.util.CallUtil;
+import fun.hara.lacontacts.util.MessageUtil;
 import fun.hara.lacontacts.util.QRCodeUtil;
 
 public class ContactEditActivity extends AppCompatActivity {
@@ -49,18 +51,25 @@ public class ContactEditActivity extends AppCompatActivity {
      * 初始化操作
      */
     private void init(){
+        // 创建DAO对象
         contactsDAO = new ContactsDAO(this);
-        Intent intent = getIntent();
-        // 回显信息
-        String name = intent.getStringExtra("name");
-        String phone = intent.getStringExtra("phone");
+
+        // 使用到的控件
         EditText nameET = (EditText) findViewById(R.id.editContactName);
         EditText phoneET = (EditText) findViewById(R.id.editContactPhone);
+
+        // 获取intent中的数据
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("name");
+        String phone = intent.getStringExtra("phone");
+        String id = intent.getStringExtra("id");
+
+        // 回显数据
         nameET.setText(name);
         phoneET.setText(phone);
-        String id = intent.getStringExtra("id");
-        if(id!=null && !"".equals(id)){
-            // id存在时
+
+        if(!TextUtils.isEmpty(id)){
+            /* id存在时 */
             TextView idTV = (TextView)findViewById(R.id.contactId);
             idTV.setText(id);
             // 修改标题
@@ -77,36 +86,25 @@ public class ContactEditActivity extends AppCompatActivity {
             RelativeLayout bottom = (RelativeLayout) findViewById(R.id.editContactBottom);
             bottom.setVisibility(View.VISIBLE);
         }else{
-            /* 新增联系人 */
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions((Activity) this,
-                        new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE},
-                        1);
-            }
+            /* id不存在时，即新增联系人 */
+            // 使用到的控件
             ImageButton editModeBtn = (ImageButton) findViewById(R.id.editModeBtn);
             ImageButton saveContactBtn = (ImageButton) findViewById(R.id.saveContactBtn);
+            ImageButton QRCodeScanBtn = (ImageButton) findViewById(R.id.QRCodeScanBtn);
+            // 可见性设置
             editModeBtn.setVisibility(View.GONE);
             saveContactBtn.setVisibility(View.VISIBLE);
-            ImageButton QRCodeScanBtn = (ImageButton) findViewById(R.id.QRCodeScanBtn);
             QRCodeScanBtn.setVisibility(View.VISIBLE);
         }
-        //拨号功能，不懂你怎么不调用按键点击就能触发的
-        ImageButton callBtn = (ImageButton)findViewById(R.id.callBtn);
-        final EditText telePhone = (EditText) findViewById(R.id.editContactPhone);
-        callBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                //设置拨打电话的动作
-                intent.setAction(Intent.ACTION_CALL);
-                //设置拨打电话的号码
-                intent.setData(Uri.parse("tel:" + telePhone.getText()));
-                //开启打电话的意图
-                startActivity(intent);
-            }
-        });
+    }
+
+    /**
+     * 拨号
+     * @param view
+     */
+    public void call(View view){
+        EditText phoneET = (EditText) findViewById(R.id.editContactPhone);
+        CallUtil.call(ContactEditActivity.this, phoneET.getText().toString());
     }
 
     /**
@@ -117,6 +115,17 @@ public class ContactEditActivity extends AppCompatActivity {
         setResult(0);
         finish();
     }
+
+
+    /**
+     * 跳转到短信APP
+     * @param view
+     */
+    public void jumpMessageApp(View view){
+        EditText phoneET = (EditText) findViewById(R.id.editContactPhone);
+        MessageUtil.jumpMessageApp(ContactEditActivity.this, phoneET.getText().toString());
+    }
+
 
     /**
      * 保存联系人

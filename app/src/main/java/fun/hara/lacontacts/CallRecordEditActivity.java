@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 
 import fun.hara.lacontacts.dao.CallRecordDAO;
+import fun.hara.lacontacts.util.CallUtil;
+import fun.hara.lacontacts.util.MessageUtil;
 
 /**
  * TODO:通讯记录编辑界面
@@ -32,18 +34,20 @@ public class CallRecordEditActivity extends AppCompatActivity {
     private void init(){
         Intent intent = getIntent();
 
+        // 使用到的控件
+        TextView mRecordId  = (TextView) findViewById(R.id.recordId);
+        TextView mRecordName = (TextView) findViewById(R.id.recordName);
+        TextView mRecordPhone = (TextView) findViewById(R.id.recordPhone);
+        TextView mRecordStatus = (TextView) findViewById(R.id.recordStatus);
+        TextView mRecordTime = (TextView) findViewById(R.id.recordTime);
+
         // 回显信息
         String id = intent.getStringExtra("id");
-        TextView mRecordId  = (TextView) findViewById(R.id.recordId);
         mRecordId.setText(id);
         String name = intent.getStringExtra("name");
         final String phone = intent.getStringExtra("phone");
         String time= intent.getStringExtra("date");
         String type = intent.getStringExtra("type");
-        TextView mRecordName = (TextView) findViewById(R.id.recordName);
-        TextView mRecordPhone = (TextView) findViewById(R.id.recordPhone);
-        TextView mRecordStatus = (TextView) findViewById(R.id.recordStatus);
-        TextView mRecordTime = (TextView) findViewById(R.id.recordTime);
         mRecordName.setText(name);
         mRecordPhone.setText(phone);
         String status = null;
@@ -70,23 +74,17 @@ public class CallRecordEditActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        final CallRecordEditActivity activity = CallRecordEditActivity.this;
         mRecordCallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {//拨号按钮
-                Intent intent = new Intent();
-                //设置拨打电话的动作
-                intent.setAction(Intent.ACTION_CALL);
-                //设置拨打电话的号码
-                intent.setData(Uri.parse("tel:" + phone));
-                //开启打电话的意图
-                startActivity(intent);
+            public void onClick(View v) { //拨号按钮
+                CallUtil.call(activity, phone);
             }
         });
         mRecordMessageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//发送信息按钮
-                doSendSMSTo(phone,"");
+                MessageUtil.jumpMessageApp(activity, phone);
             }
         });
     }
@@ -114,11 +112,5 @@ public class CallRecordEditActivity extends AppCompatActivity {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.GRAY);
     }
-    public void doSendSMSTo(String phoneNumber,String message){
-        if(PhoneNumberUtils.isGlobalPhoneNumber(phoneNumber)){
-            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"+phoneNumber));
-            intent.putExtra("sms_body", message);
-            startActivity(intent);
-        }
-    }
+
 }

@@ -96,9 +96,9 @@ public class CallFragment extends Fragment {
                 CallRecord mRecord = (CallRecord) adapter.getItem(position);//获取每一位联系人
                 Intent intent = new Intent(getActivity(), CallRecordEditActivity.class);
                 SimpleDateFormat fo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//转换日期格式
-                String dateString = fo.format(mRecord.getDate());//要先转时间再传
+                String dateString = fo.format(mRecord.getDate());   //要先转时间再传
                 intent.putExtra("id", mRecord.getId().toString());
-                intent.putExtra("phone", mRecord.getPhone());//将数据传入CallRecordEditActivity
+                intent.putExtra("phone", mRecord.getPhone());   //将数据传入CallRecordEditActivity
                 intent.putExtra("name", mRecord.getName());
                 intent.putExtra("date", dateString);
                 intent.putExtra("type", mRecord.getType() + "");
