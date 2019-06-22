@@ -11,7 +11,7 @@ import java.util.Locale;
 
 public class CallRecord {
 
-         private Integer id; // 主键
+    private Integer id; // 主键
         private String name; // 名字
         private long date;   // 日期
         private int type;    // 类型：来电、去电、未接

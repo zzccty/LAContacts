@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fun.hara.lacontacts.ContactsBackupActivity">
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="备份与还原"
+            android:textColor="#fafafa"
+            android:textSize="18dp" />
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="25dp"
+            android:onClick="back"
+            android:background="@drawable/normal_button"
+            app:srcCompat="@drawable/ic_chevron_left_black_24dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:id="@+id/backupContactsView"
+            android:layout_below="@+id/textView2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dp">
+
+            <ImageButton
+                android:id="@+id/backupContactsBtn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:onClick="backup"
+                android:background="@drawable/big_camera_button"
+                />
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_alignBottom="@+id/backupContactsBtn"
+                android:layout_alignStart="@+id/backupContactsBtn"
+                android:layout_marginStart="100dp"
+                app:srcCompat="@drawable/ic_arrow_downward_black_24dp" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/imageView3"
+                android:text="备份"
+                android:textSize="16dp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:id="@+id/recoverContactsView"
+            android:layout_below="@+id/textView2"
+            android:layout_centerHorizontal="true"
+
+            android:layout_marginTop="220dp">
+
+            <ImageButton
+                android:id="@+id/recoverContactsBtn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:onClick="recover"
+                android:background="@drawable/big_camera_button"
+                />
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_alignBottom="@+id/recoverContactsBtn"
+                android:layout_alignStart="@+id/recoverContactsBtn"
+                android:layout_marginStart="100dp"
+                app:srcCompat="@drawable/ic_sync_black_24dp" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/imageView5"
+                android:text="还原"
+                android:textSize="16dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

@@ -96,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
                 ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG)
                         != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALL_LOG)
+                        != PackageManager.PERMISSION_GRANTED||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS)
                         != PackageManager.PERMISSION_GRANTED
                 ) {
             ActivityCompat.requestPermissions((Activity) this,
@@ -106,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
                             Manifest.permission.CALL_PHONE,
                             android.Manifest.permission.READ_CALL_LOG,
                             Manifest.permission.WRITE_CALL_LOG,
+                            Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS
                     },
                     1);
         }
@@ -163,6 +166,11 @@ public class MainActivity extends AppCompatActivity {
                         // 跳转到个人信息页面
                         Intent intent2 = new Intent(ctx, PhoneInfoActivity.class);
                         startActivityForResult(intent2, 0);
+                        break;
+                    case R.id.action_backup:
+                        // 跳转到个人信息页面
+                        Intent intent3 = new Intent(ctx, ContactsBackupActivity.class);
+                        startActivityForResult(intent3, 0);
                         break;
                 }
                 return false;

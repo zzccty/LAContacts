@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import fun.hara.lacontacts.domain.ContactInfo;
-import fun.hara.lacontacts.preferences.PhoneInfoPreferences;
 import fun.hara.lacontacts.util.EditTextUtil;
 import fun.hara.lacontacts.util.QRCodeUtil;
 
