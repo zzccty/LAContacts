@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +23,6 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.common.Constant;
-
 
 
 import fun.hara.lacontacts.domain.ContactInfo;
@@ -90,14 +90,14 @@ public class MainActivity extends AppCompatActivity {
                         != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA)
                         != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED||
+                != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
-                        != PackageManager.PERMISSION_GRANTED||
+                        != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG)
-                        != PackageManager.PERMISSION_GRANTED||
+                        != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALL_LOG)
                         != PackageManager.PERMISSION_GRANTED
-        ) {
+                ) {
             ActivityCompat.requestPermissions((Activity) this,
                     new String[]{android.Manifest.permission.READ_CONTACTS,
                             android.Manifest.permission.WRITE_CONTACTS,
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                             android.Manifest.permission.READ_EXTERNAL_STORAGE,
                             Manifest.permission.CALL_PHONE,
                             android.Manifest.permission.READ_CALL_LOG,
-                            Manifest.permission.WRITE_CALL_LOG
+                            Manifest.permission.WRITE_CALL_LOG,
                     },
                     1);
         }
@@ -142,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public void showPopupMenu(View view) {
         // View当前PopupMenu显示的相对View的位置
         PopupMenu popupMenu = new PopupMenu(this, view);
@@ -153,11 +152,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int itemId = item.getItemId();
-                switch (itemId){
+                MainActivity ctx = MainActivity.this;
+                switch (itemId) {
                     // 设置每个item的响应事件
                     case R.id.action_scan:
-                        Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                        Intent intent = new Intent(ctx, CaptureActivity.class);
                         startActivityForResult(intent, 0);
+                        break;
+                    case R.id.action_phoneInfo:
+                        // 跳转到个人信息页面
+                        Intent intent2 = new Intent(ctx, PhoneInfoActivity.class);
+                        startActivityForResult(intent2, 0);
                         break;
                 }
                 return false;

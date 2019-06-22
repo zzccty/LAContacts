@@ -22,6 +22,10 @@ public class ContactInfo  implements Comparable<ContactInfo> {
         this.name = name;
         this.phone = phone;
     }
+    public ContactInfo( String name, String phone) {
+        this.name = name;
+        this.phone = phone;
+    }
 
     public ContactInfo() {
     }

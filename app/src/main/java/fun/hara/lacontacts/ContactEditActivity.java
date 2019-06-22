@@ -31,6 +31,7 @@ import com.yzq.zxinglibrary.common.Constant;
 import fun.hara.lacontacts.dao.ContactsDAO;
 import fun.hara.lacontacts.domain.ContactInfo;
 import fun.hara.lacontacts.util.CallUtil;
+import fun.hara.lacontacts.util.EditTextUtil;
 import fun.hara.lacontacts.util.MessageUtil;
 import fun.hara.lacontacts.util.QRCodeUtil;
 
@@ -76,7 +77,7 @@ public class ContactEditActivity extends AppCompatActivity {
             TextView editContactTitle = (TextView) findViewById(R.id.editContactTitle);
             editContactTitle.setText("编辑联系人");
             // 禁用编辑
-            uneditable(nameET, phoneET);
+            EditTextUtil.uneditable(nameET, phoneET);
             // 生成二维码
             ImageView QRCodeImg = (ImageView) findViewById(R.id.QRCodeImg);
             QRCodeImg.setVisibility(View.VISIBLE);
@@ -183,7 +184,7 @@ public class ContactEditActivity extends AppCompatActivity {
         ImageButton cancelEditBtn1 = (ImageButton) findViewById(R.id.cancelEditBtn1);
         updateContactBtn.setVisibility(View.VISIBLE);
         cancelEditBtn1.setVisibility(View.VISIBLE);
-        editable(nameET, phoneET);
+        EditTextUtil.editable(nameET, phoneET);
         RelativeLayout editContactBottom = (RelativeLayout) findViewById(R.id.editContactBottom);
         editContactBottom.setVisibility(View.GONE);
     }
@@ -202,7 +203,7 @@ public class ContactEditActivity extends AppCompatActivity {
         editModeBtn.setVisibility(View.VISIBLE);
         RelativeLayout editContactBottom = (RelativeLayout) findViewById(R.id.editContactBottom);
         editContactBottom.setVisibility(View.VISIBLE);
-        uneditable(nameET, phoneET);
+        EditTextUtil.uneditable(nameET, phoneET);
 
         nameET.setText(getIntent().getStringExtra("name"));
         phoneET.setText( getIntent().getStringExtra("phone"));
@@ -268,11 +269,11 @@ public class ContactEditActivity extends AppCompatActivity {
         }
     }
 
-
-    /**
+/*
+    *//**
      * 让EditText不可编辑
      * @param editTexts
-     */
+     *//*
     private void uneditable(EditText ... editTexts){
         for (EditText editText : editTexts) {
             editText.setFocusable(false);
@@ -281,17 +282,17 @@ public class ContactEditActivity extends AppCompatActivity {
 
     }
 
-    /**
+    *//**
      * 让EditText可被编辑
      * @param editTexts
-     */
+     *//*
     private void editable(EditText ... editTexts){
         for (EditText editText : editTexts) {
             editText.setFocusableInTouchMode(true);
             editText.setFocusable(true);
             editText.requestFocus();
         }
-    }
+    }*/
 
 
 }

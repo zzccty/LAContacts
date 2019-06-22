@@ -5,12 +5,12 @@
      android:id="@+id/action_scan"
      android:title="扫一扫"
      app:showAsAction="never"/> 
-  <item 
-    android:id="@+id/action_new" 
-    android:title="批量导入"
-    app:showAsAction="never"/> 
-  <item 
-    android:id="@+id/action_del" 
-    android:title="批量导出"
-     app:showAsAction="never"/> 
- </menu> 
+    <item
+        android:id="@+id/action_phoneInfo"
+        android:title="我的二维码"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_backup"
+        android:title="备份与还原"
+        app:showAsAction="never"/>
+ </menu>

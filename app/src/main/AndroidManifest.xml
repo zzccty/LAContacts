@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <!-- 二维码扫描相关 -->
@@ -19,6 +19,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -37,7 +38,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ContactEditActivity" />
-        <activity android:name=".CallRecordEditActivity"></activity>
+        <activity android:name=".CallRecordEditActivity" />
+        <activity android:name=".PhoneInfoActivity"></activity>
     </application>
 
 </manifest>

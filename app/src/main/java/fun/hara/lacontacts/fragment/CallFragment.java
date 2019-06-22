@@ -75,7 +75,6 @@ public class CallFragment extends Fragment {
         return super.onCreateAnimation(transit, enter, nextAnim);
     }
 
-
     /**
      * 添加通讯显示和触发事件
      *
