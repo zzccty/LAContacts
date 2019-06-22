@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import fun.hara.lacontacts.dao.CallRecordDAO;
@@ -115,7 +116,7 @@ public class CallRecordEditActivity extends AppCompatActivity {
         TextView recordPhone = (TextView) findViewById(R.id.recordPhone);
         Intent intent = new Intent(CallRecordEditActivity.this, ContactEditActivity.class);
         intent.putExtra("phone", recordPhone.getText().toString());
-        startActivity(intent);
+        startActivityForResult(intent, 0);
     }
 
     /**
@@ -141,5 +142,15 @@ public class CallRecordEditActivity extends AppCompatActivity {
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.GRAY);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==0 && resultCode == 1){
+            Toast.makeText(this ,"新增成功",Toast.LENGTH_LONG ).show();
+            setResult(0);
+            finish();
+        }
     }
 }

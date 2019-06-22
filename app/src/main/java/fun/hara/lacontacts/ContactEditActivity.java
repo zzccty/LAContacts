@@ -269,30 +269,5 @@ public class ContactEditActivity extends AppCompatActivity {
         }
     }
 
-/*
-    *//**
-     * 让EditText不可编辑
-     * @param editTexts
-     *//*
-    private void uneditable(EditText ... editTexts){
-        for (EditText editText : editTexts) {
-            editText.setFocusable(false);
-            editText.setFocusableInTouchMode(false);
-        }
-
-    }
-
-    *//**
-     * 让EditText可被编辑
-     * @param editTexts
-     *//*
-    private void editable(EditText ... editTexts){
-        for (EditText editText : editTexts) {
-            editText.setFocusableInTouchMode(true);
-            editText.setFocusable(true);
-            editText.requestFocus();
-        }
-    }*/
-
 
 }

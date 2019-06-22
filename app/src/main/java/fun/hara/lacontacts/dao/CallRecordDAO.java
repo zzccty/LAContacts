@@ -51,11 +51,9 @@ public class CallRecordDAO {
         //游标指向下一组数据
             while (cursor.moveToNext()) {
                 Integer id = cursor.getInt(cursor.getColumnIndex(CallLog.Calls._ID));
-                String name = cursor.getString(cursor.getColumnIndex(CallLog.Calls.CACHED_NAME));
+                //String name = cursor.getString(cursor.getColumnIndex(CallLog.Calls.CACHED_NAME));
                 String phone = cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER));
-                if(TextUtils.isEmpty(name)){
-                    name = queryNameByPhone(phone, contacts);
-                }
+                String name = queryNameByPhone(phone, contacts);
                 long date = cursor.getLong(cursor.getColumnIndex(CallLog.Calls.DATE));
                 int type = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.TYPE));
                 infos.add(new CallRecord(id, name, date, type, phone));
