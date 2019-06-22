@@ -42,27 +42,30 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
         <TextView
             android:id="@+id/recordName"
-            android:background="@drawable/edittext_background_2"
             android:layout_width="300dp"
             android:layout_height="40dp"
-            android:layout_below="@+id/editContactPhone"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp"
-            android:textSize="16dp"
+            android:layout_alignStart="@+id/recordPhone"
+            android:layout_alignTop="@+id/imageView"
+            android:layout_marginTop="90dp"
+            android:background="@drawable/edittext_background_2"
             android:gravity="center"
-            android:text="姓名" />
+            android:text="姓名"
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/recordPhone"
             android:layout_width="300dp"
             android:layout_height="40dp"
-            android:layout_alignStart="@+id/recordName"
-            android:layout_below="@+id/recordName"
-            android:layout_marginTop="25dp"
+            android:layout_alignStart="@+id/imageButton"
+            android:layout_alignTop="@+id/imageView"
+            android:layout_marginTop="150dp"
             android:background="@drawable/edittext_background_2"
             android:gravity="center"
             android:text="电话号码"
@@ -74,36 +77,23 @@
             android:layout_height="40dp"
             android:layout_alignStart="@+id/recordPhone"
             android:layout_below="@+id/recordPhone"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/edittext_background_2"
-            android:gravity="center"
-            android:text="呼出/呼入"
-            android:textSize="16dp" />
-
-        <TextView
-            android:id="@+id/recordTime"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:layout_alignStart="@+id/recordStatus"
-            android:layout_below="@+id/recordStatus"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/edittext_background_2"
+            android:layout_marginTop="17dp"
             android:gravity="center"
             android:text="呼出/呼入时间(年-月-日 时 : 分)"
             android:textSize="16dp" />
 
         <!-- 底部按钮区域 -->
         <RelativeLayout
+            android:id="@+id/editContactBottom"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:background="#fafafa"
             android:elevation="5dp"
-            android:translationZ="5dp"
-            android:id="@+id/editContactBottom">
+            android:translationZ="5dp">
 
-             <!-- 拨号按钮 -->
+            <!-- 拨号按钮 -->
             <ImageButton
                 android:id="@+id/recordCallBtn"
                 android:layout_width="120dp"
@@ -119,34 +109,115 @@
                 android:id="@+id/recordDeleteBtn"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
                 android:background="@drawable/dial_button"
                 android:minHeight="55dp"
                 android:onClick="delete"
                 android:src="@drawable/ic_delete_black_24dp"
                 android:stateListAnimator="@null" />
+
             <ImageButton
                 android:id="@+id/recordMessageBtn"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="12dp"
-                android:background="@drawable/dial_button"
                 android:layout_toStartOf="@+id/recordCallBtn"
+                android:background="@drawable/dial_button"
                 android:src="@drawable/ic_message_black_24dp"
                 android:stateListAnimator="@null" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/recordId"
-            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/recordTime"
-            android:layout_below="@+id/recordTime"
-            android:layout_marginTop="41dp"
-            android:text="TextView" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/recordStatus"
+            android:text="TextView"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="93dp"
+            app:srcCompat="@drawable/ic_smile" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/recordStatus"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:onClick="deleteContactsByPhone"
+            android:background="@drawable/big_camera_button" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_alignBottom="@+id/imageButton"
+            android:layout_alignStart="@+id/imageButton"
+            android:layout_marginStart="40dp"
+            app:srcCompat="@drawable/ic_delete_black_24dp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_alignTop="@+id/imageView2"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="7dp"
+            android:layout_toEndOf="@+id/imageView2"
+            android:text="删除所有通话记录"
+
+            android:textSize="16dp" />
+
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            android:id="@+id/saveContactView"
+            android:layout_below="@+id/textView2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp">
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:onClick="saveContact"
+                android:background="@drawable/big_camera_button"
+                />
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_alignBottom="@+id/imageButton2"
+                android:layout_alignStart="@+id/imageButton2"
+                android:layout_marginStart="40dp"
+                app:srcCompat="@drawable/ic_add_green_24dp" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/imageView3"
+                android:text="保存为联系人"
+                android:textSize="16dp" />
+        </RelativeLayout>
+
+
 
 
     </RelativeLayout>

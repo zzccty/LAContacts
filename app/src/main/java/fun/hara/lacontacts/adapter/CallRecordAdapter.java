@@ -54,35 +54,25 @@ public class CallRecordAdapter extends BaseAdapter {
         TextView nameRecord = (TextView) layout.findViewById(R.id.recordItemName);//名字
         TextView statusRecord = (TextView) layout.findViewById(R.id.recordItemStatus);//T呼出呼入
         TextView timeRecord = (TextView) layout.findViewById(R.id.recordItemTime);//时间
-        String name = list.get(i).getName();
+
         // 若已存储联系人，则显示姓名，若未存储，则显示手机号码
+        CallRecord callRecord = list.get(i);
+        String name = callRecord.getName();
         if(TextUtils.isEmpty(name)){
-            nameRecord.setText(list.get(i).getPhone());
+            nameRecord.setText(callRecord.getPhone());
         }else{
             nameRecord.setText(name);
         }
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm" , Locale.getDefault());
-        String dateString = format.format(list.get(i).getDate());
-        timeRecord.setText(dateString);
-//        // 类型
-        String type = null;
-        int textColor = 0;
-        switch (list.get(i).getType()){
-            case CallLog.Calls.INCOMING_TYPE: // 来电，字体蓝色
-                type = "呼入";
-                textColor = Color.rgb(47,153,101);
-                break;
-            case CallLog.Calls.OUTGOING_TYPE: // 去电，字体绿色
-                type = "呼出";
-                textColor = Color.rgb(0,183,195);
-                break;
-            case CallLog.Calls.MISSED_TYPE:   // 未接，字体红色
-                type = "未接";
-                textColor = Color.RED;
-                break;
+        // 显示时间
+        timeRecord.setText(callRecord.getDateStr("yyyy-MM-dd HH:mm" ));
+
+        // 显示类型
+        statusRecord.setText(callRecord.getTypeStr());
+        if(CallLog.Calls.MISSED_TYPE == callRecord.getType()){
+            // 未接电话红色显示
+            nameRecord.setTextColor(Color.rgb(255, 102, 0));
         }
-        statusRecord.setText(type);
-        statusRecord.setTextColor(textColor);
         return layout;
     }
+
 }

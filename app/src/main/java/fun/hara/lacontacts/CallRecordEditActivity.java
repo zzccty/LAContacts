@@ -8,8 +8,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -21,8 +23,6 @@ import fun.hara.lacontacts.util.MessageUtil;
  * TODO:通讯记录编辑界面
  */
 public class CallRecordEditActivity extends AppCompatActivity {
-
-
     private CallRecordDAO callRecordDAO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,37 +33,31 @@ public class CallRecordEditActivity extends AppCompatActivity {
 
     private void init(){
         Intent intent = getIntent();
-
         // 使用到的控件
         TextView mRecordId  = (TextView) findViewById(R.id.recordId);
         TextView mRecordName = (TextView) findViewById(R.id.recordName);
         TextView mRecordPhone = (TextView) findViewById(R.id.recordPhone);
         TextView mRecordStatus = (TextView) findViewById(R.id.recordStatus);
-        TextView mRecordTime = (TextView) findViewById(R.id.recordTime);
 
         // 回显信息
         String id = intent.getStringExtra("id");
-        mRecordId.setText(id);
         String name = intent.getStringExtra("name");
         final String phone = intent.getStringExtra("phone");
         String time= intent.getStringExtra("date");
         String type = intent.getStringExtra("type");
-        mRecordName.setText(name);
+
+        mRecordId.setText(id);
+        if(TextUtils.isEmpty(name)){
+            mRecordName.setText("未存储");
+            RelativeLayout saveContactView = (RelativeLayout) findViewById(R.id.saveContactView);
+            saveContactView.setVisibility(View.VISIBLE);
+        }else{
+            mRecordName.setText(name);
+        }
         mRecordPhone.setText(phone);
-        String status = null;
-        switch (type){
-            case "2": // 来电
-                status = "呼入";
-                break;
-            case "1": // 去电
-                status = "呼出";
-                break;
-            case "0":   // 未接
-                status = "未接";
-                break;
-        }//判断颜色
-        mRecordStatus.setText(status);
-        mRecordTime.setText(time);
+        mRecordStatus.setText(time + "\t" + type);
+
+        // 按钮相关事件
         ImageButton mRecordBackBtn = (ImageButton) findViewById(R.id.recordBackBtn);
         ImageButton mRecordCallBtn = (ImageButton) findViewById(R.id.recordCallBtn);
         ImageButton mRecordMessageBtn = (ImageButton) findViewById(R.id.recordMessageBtn);
@@ -113,4 +107,39 @@ public class CallRecordEditActivity extends AppCompatActivity {
         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.GRAY);
     }
 
+    /**
+     * 保存联系人
+     * @param view
+     */
+    public void saveContact(View view){
+        TextView recordPhone = (TextView) findViewById(R.id.recordPhone);
+        Intent intent = new Intent(CallRecordEditActivity.this, ContactEditActivity.class);
+        intent.putExtra("phone", recordPhone.getText().toString());
+        startActivity(intent);
+    }
+
+    /**
+     * 删除指定电话号码对应的通话记录
+     * @param view
+     */
+    public void deleteContactsByPhone(View view){
+        callRecordDAO = new CallRecordDAO(this);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("提示")
+                .setMessage("确定删除该号码对应的所有通话记录吗？")
+                .setPositiveButton("确定",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        TextView recordPhone = (TextView) findViewById(R.id.recordPhone);
+                        callRecordDAO.deleteRecordsByPhone(recordPhone.getText().toString());
+                        setResult(0);
+                        finish();
+                    }
+                })
+                .setNegativeButton("取消",null)
+                .create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.GRAY);
+    }
 }

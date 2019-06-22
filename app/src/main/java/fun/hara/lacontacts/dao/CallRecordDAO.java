@@ -52,8 +52,6 @@ public class CallRecordDAO {
                 String phone = cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER));
                 infos.add(new CallRecord(id, name, date, type, phone));
             }
-
-
         return infos;//返回数据
     }
 
@@ -63,6 +61,17 @@ public class CallRecordDAO {
             return;
         }
         int result = resolver.delete(CallLog.Calls.CONTENT_URI, "_id=? ", new String[]{id});
+    }
 
+    /**
+     * 删除电话号码对应的所有通话记录
+     * @param phone
+     */
+    public void deleteRecordsByPhone(String phone){
+        ContentResolver resolver = ctx.getContentResolver();
+        if (ActivityCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        int result = resolver.delete(CallLog.Calls.CONTENT_URI, "number=? ", new String[]{phone});
     }
 }

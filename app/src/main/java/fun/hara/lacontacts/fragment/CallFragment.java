@@ -93,15 +93,13 @@ public class CallFragment extends Fragment {
         callRecordInfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                CallRecord mRecord = (CallRecord) adapter.getItem(position);//获取每一位联系人
+                CallRecord record = (CallRecord) adapter.getItem(position);//获取每一位联系人
                 Intent intent = new Intent(getActivity(), CallRecordEditActivity.class);
-                SimpleDateFormat fo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//转换日期格式
-                String dateString = fo.format(mRecord.getDate());   //要先转时间再传
-                intent.putExtra("id", mRecord.getId().toString());
-                intent.putExtra("phone", mRecord.getPhone());   //将数据传入CallRecordEditActivity
-                intent.putExtra("name", mRecord.getName());
-                intent.putExtra("date", dateString);
-                intent.putExtra("type", mRecord.getType() + "");
+                intent.putExtra("id", record.getId().toString());
+                intent.putExtra("phone", record.getPhone());   //将数据传入CallRecordEditActivity
+                intent.putExtra("name", record.getName());
+                intent.putExtra("date", record.getDateStr("yyyy-MM-dd HH:mm:ss"));
+                intent.putExtra("type", record.getTypeStr());
                 startActivityForResult(intent, 0);
             }
         });
