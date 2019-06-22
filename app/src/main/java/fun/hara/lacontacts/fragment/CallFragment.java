@@ -300,6 +300,7 @@ public class CallFragment extends Fragment {
                 @Override
                 public boolean onLongClick(View view) {
                     telephone.setText("");
+                    str = "";
                     return false;
                 }
             });

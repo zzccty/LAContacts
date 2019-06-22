@@ -81,7 +81,6 @@ public class ContactsBackupActivity extends AppCompatActivity {
                 }catch (Exception e){
                     Toast.makeText(this, "文件数据错误！", Toast.LENGTH_LONG).show();
                 }
-
             }
         }
     }
