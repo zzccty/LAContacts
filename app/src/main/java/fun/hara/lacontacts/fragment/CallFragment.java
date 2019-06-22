@@ -35,6 +35,7 @@ import fun.hara.lacontacts.domain.CallRecord;
 public class CallFragment extends Fragment {
     @Nullable
     private boolean isGetData;  // 用于判断是否需要重新加载联系人记录列表
+    private boolean afterCall;  // 用于判断是否需要重新加载联系人记录列表
     private String str = "";//用于存取号码
     final static String TAG="CallFramgment";//用于测试
     @Override
@@ -54,6 +55,12 @@ public class CallFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         initCallRecord();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+            initCallRecord();
     }
 
     /**
@@ -315,9 +322,10 @@ public class CallFragment extends Fragment {
                     intent.setData(Uri.parse("tel:" + str));
                     //开启打电话的意图
                     startActivity(intent);
-                    initCallRecord();
+                    //initCallRecord();
                     str = "";
                     telephone.setText("请输入手机号码");
+
                 }
             });
         }

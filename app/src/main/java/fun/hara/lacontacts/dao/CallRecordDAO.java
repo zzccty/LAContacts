@@ -8,16 +8,19 @@ import android.content.Context;
 import android.content.OperationApplicationException;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.RemoteException;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import fun.hara.lacontacts.domain.CallRecord;
+import fun.hara.lacontacts.domain.ContactInfo;
 
 /**
  * Created by hanaii on 2019/6/21.
@@ -25,6 +28,7 @@ import fun.hara.lacontacts.domain.CallRecord;
 
 public class CallRecordDAO {
     private Context ctx;
+
 
     public CallRecordDAO(Context ctx) {
         this.ctx = ctx;
@@ -43,16 +47,29 @@ public class CallRecordDAO {
                 null,
                 CallLog.Calls.DEFAULT_SORT_ORDER
         );
-            //游标指向下一组数据
+        List<ContactInfo> contacts = new ContactsDAO(ctx).listAll();
+        //游标指向下一组数据
             while (cursor.moveToNext()) {
                 Integer id = cursor.getInt(cursor.getColumnIndex(CallLog.Calls._ID));
                 String name = cursor.getString(cursor.getColumnIndex(CallLog.Calls.CACHED_NAME));
+                String phone = cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER));
+                if(TextUtils.isEmpty(name)){
+                    name = queryNameByPhone(phone, contacts);
+                }
                 long date = cursor.getLong(cursor.getColumnIndex(CallLog.Calls.DATE));
                 int type = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.TYPE));
-                String phone = cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER));
                 infos.add(new CallRecord(id, name, date, type, phone));
             }
         return infos;//返回数据
+    }
+
+    private String queryNameByPhone(String phone, List<ContactInfo> contacts) {
+        for (ContactInfo contact : contacts) {
+            if(contact.getPhone().equals(phone)){
+                return contact.getName();
+            }
+        }
+        return null;
     }
 
     public void delete(String id) {
@@ -74,4 +91,6 @@ public class CallRecordDAO {
         }
         int result = resolver.delete(CallLog.Calls.CONTENT_URI, "number=? ", new String[]{phone});
     }
+
+
 }
