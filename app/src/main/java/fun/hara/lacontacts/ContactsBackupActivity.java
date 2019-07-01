@@ -46,6 +46,7 @@ public class ContactsBackupActivity extends AppCompatActivity {
         FileUtil.saveFile(data, filename);
         Toast.makeText(this, "联系人列表已备份：" + filename, Toast.LENGTH_LONG).show();
     }
+
     /**
      * 普通回退
      * @param view
@@ -72,6 +73,8 @@ public class ContactsBackupActivity extends AppCompatActivity {
                     return;
                 }
                 try{
+                    Toast.makeText(this, "恢复中，请稍等", Toast.LENGTH_LONG).show();
+
                     String contactsData = FileUtil.getFile(path);;
                     List<ContactInfo> list = JSON.parseArray(contactsData, ContactInfo.class);
                     for (ContactInfo contactInfo : list) {

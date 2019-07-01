@@ -28,8 +28,6 @@ import fun.hara.lacontacts.domain.ContactInfo;
 
 public class CallRecordDAO {
     private Context ctx;
-
-
     public CallRecordDAO(Context ctx) {
         this.ctx = ctx;
     }
